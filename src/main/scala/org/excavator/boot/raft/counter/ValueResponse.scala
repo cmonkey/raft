@@ -7,7 +7,7 @@ case class ValueResponse(@BeanProperty
                          @BeanProperty
                          var success:Boolean, // 是否成功
                          @BeanProperty
-                         redirect:String, // 发生了重新选举，需要跳转的新leader节点
+                         var redirect:String, // 发生了重新选举，需要跳转的新leader节点
                          @BeanProperty // 失败情况下的错误信息
-                         errorMsg:String // 失败情况下的错误信息
+                         var errorMsg:String // 失败情况下的错误信息
                         ) extends Serializable
