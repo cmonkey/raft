@@ -11,7 +11,7 @@ import com.alipay.sofa.jraft.rpc.{RaftRpcServerFactory, RpcServer}
 import com.alipay.sofa.jraft.{Node, RaftGroupService}
 import org.apache.commons.io.FileUtils
 
-class CounterServer {
+class CounterServer(dataPath:String, groupId:String, serverId:PeerId, nodeOptions: NodeOptions) {
 
   // raft 服务端框架
   private var raftGroupService:RaftGroupService  = null
@@ -20,35 +20,36 @@ class CounterServer {
   // 业务状态机
   private var fsm:CounterStateMachine = null
 
-  def apply(dataPath:String, groupId:String, serverId:PeerId, nodeOptions: NodeOptions) = {
 
-    // init data path
-    FileUtils.forceMkdir(new File(dataPath))
+  // init data path
+  FileUtils.forceMkdir(new File(dataPath))
 
-    // init global time
-    val timerManager = new TimerManager(50)
+  // init global time
+  val timerManager = new TimerManager(50)
 
-    val remoteRpc = new rpc.RpcServer(serverId.getPort)
-    val rpcServer = new BoltRpcServer(remoteRpc)
-    RaftRpcServerFactory.addRaftRequestProcessors(rpcServer)
+  val remoteRpc = new rpc.RpcServer(serverId.getPort)
 
-    rpcServer.registerProcessor(new GetValueRequestProcessor(this))
-    rpcServer.registerProcessor(new IncrementAndGetRequestProcessor(this))
+  //remoteRpc.registerUserProcessor(new GetValueRequestProcessor(this))
+  //remoteRpc.registerUserProcessor(new IncrementAndGetRequestProcessor(this))
 
-    this.fsm = new CounterStateMachine
+  val rpcServer = RaftRpcServerFactory.createRaftRpcServer(serverId.getEndpoint)
+  rpcServer.registerProcessor(new IncrementAndGetRequestProcessor(this))
+  //RaftRpcServerFactory.addRaftRequestProcessors(rpcServer)
 
-    nodeOptions.setFsm(this.fsm)
 
-    nodeOptions.setLogUri(dataPath + File.separator + "log")
+  this.fsm = new CounterStateMachine
 
-    nodeOptions.setRaftMetaUri(dataPath + File.separator + "raft_meta")
+  nodeOptions.setFsm(this.fsm)
 
-    nodeOptions.setSnapshotUri(dataPath + File.separator + "snapshot")
+  nodeOptions.setLogUri(dataPath + File.separator + "log")
 
-    this.raftGroupService = new RaftGroupService(groupId,serverId, nodeOptions, rpcServer)
+  nodeOptions.setRaftMetaUri(dataPath + File.separator + "raft_meta")
 
-    this.node = this.raftGroupService.start()
-  }
+  nodeOptions.setSnapshotUri(dataPath + File.separator + "snapshot")
+
+  this.raftGroupService = new RaftGroupService(groupId,serverId, nodeOptions, rpcServer)
+
+  this.node = this.raftGroupService.start()
 
   def getFsm = this.fsm
 
