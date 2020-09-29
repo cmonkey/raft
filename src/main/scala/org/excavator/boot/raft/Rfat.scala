@@ -1,4 +1,4 @@
-package com.cmonkey.raft
+package org.excavator.boot.raft
 
 import java.util.logging.Logger
 

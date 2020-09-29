@@ -1,6 +1,6 @@
-package com.cmonkey.raft
+package org.excavator.boot.raft
 
-import com.cmonkey.raft.Rfat.{Index, Term}
+import org.excavator.boot.raft.Rfat.{Index, Term}
 
 import scala.collection.mutable.ArrayBuffer
 

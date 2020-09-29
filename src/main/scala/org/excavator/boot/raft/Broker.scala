@@ -1,8 +1,8 @@
-package com.cmonkey.raft
+package org.excavator.boot.raft
 
 import java.util.concurrent.{ArrayBlockingQueue, BlockingQueue, Executors, TimeUnit}
 
-import com.cmonkey.raft.Rfat._
+import org.excavator.boot.raft.Rfat._
 
 trait Broker {
 
