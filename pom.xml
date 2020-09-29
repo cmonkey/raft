@@ -2,119 +2,633 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>com.cmonnkey</groupId>
+	<groupId>org.excavator.boot</groupId>
 	<artifactId>raft</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>count</name>
 	<packaging>jar</packaging>
-	<description>raft</description>
 
+	<name>raft</name>
+	<description>Excavator Boot Raft project</description>
 	<properties>
+		<java.version>14</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-        <scala.version>2.11.0</scala.version>
-        <hadoop.version>2.7.0</hadoop.version>
+		<project.encoding>UTF-8</project.encoding>
+		<project.build.encoding>UTF-8</project.build.encoding>
+		<!-- 3rd lib dependency -->
+		<fastjson.version>1.2.72</fastjson.version>
+		<zookeeper.version>3.6.1</zookeeper.version>
+        <curator.version>5.1.0</curator.version>
+		<joda.time.version>2.10.6</joda.time.version>
+		<scala.major-version>2.13</scala.major-version>
+		<scala.version>${scala.major-version}.3</scala.version>
+		<pagehelper.version>1.2.13</pagehelper.version>
+		<mybatis.version>2.1.3</mybatis.version>
+		<dom4j.version>2.1.3</dom4j.version>
+		<excavator-boot.version>2.0.0-SNAPSHOT</excavator-boot.version>
+		<pack.version>0.5.0</pack.version>
+		<mysql-connector.version>8.0.21</mysql-connector.version>
+		<commons-lang3.version>3.11</commons-lang3.version>
+		<lombok.version>1.18.12</lombok.version>
+		<druid.version>1.1.23</druid.version>
+		<javax-servlet.version>4.0.1</javax-servlet.version>
+		<redisson.version>3.13.2</redisson.version>
+		<commons-codec.version>1.14</commons-codec.version>
+		<netty.version>4.1.51.Final</netty.version>
+		<junit-jupiter.version>5.6.2</junit-jupiter.version>
+		<commons-logging.version>1.2</commons-logging.version>
+		<guava.version>24.1.1-jre</guava.version>
+		<commons-text.version>1.8</commons-text.version>
+		<jmh.version>1.23</jmh.version>
+		<commons-collections4.version>4.4</commons-collections4.version>
+		<quartz.version>2.3.2</quartz.version>
+		<commons-pool2.version>2.8.0</commons-pool2.version>
+		<javassist.version>3.27.0-GA</javassist.version>
+		<byte-buddy.version>1.10.13</byte-buddy.version>
+		<commons-io.version>2.7</commons-io.version>
+		<bouncycastle.version>1.66</bouncycastle.version>
+		<springswagger.version>3.0.0</springswagger.version>
+        <jsch.version>0.1.55</jsch.version>
+		<monix.io.version>1.0.0</monix.io.version>
+        <clickhouse-native-jdbc.version>2.2-stable</clickhouse-native-jdbc.version>
+		<main.user.dir>${user.dir}</main.user.dir>
+		<!-- adapted high version jdk start -->
+		<jaxb.version>2.3.0</jaxb.version>
+		<javax.activation.version>1.1.1</javax.activation.version>
+		<javax.annotation-api.version>1.3.2</javax.annotation-api.version>
+		<!-- adapted high version jdk end -->
+
+		<!-- plugin -->
+		<license.maven.plugin>3.0</license.maven.plugin>
+		<maven.java.formatter.plugin>0.4</maven.java.formatter.plugin>
+		<maven.compiler.plugin>3.8.1</maven.compiler.plugin>
+		<maven.source.plugin>3.2.1</maven.source.plugin>
+		<maven.javadoc.plugin>3.2.0</maven.javadoc.plugin>
+		<maven.gpg.plugin>1.6</maven.gpg.plugin>
+		<cobertura.maven.plugin>2.7</cobertura.maven.plugin>
+		<coveralls.maven.plugin>4.3.0</coveralls.maven.plugin>
+		<alchim31.scala.plugin>4.4.0</alchim31.scala.plugin>
+		<maven.surefire.plugin>2.22.2</maven.surefire.plugin>
+
 	</properties>
+
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>cmonkey</name>
+			<email>42.codemonkey@gmail.com</email>
+			<organization>Excavator</organization>
+			<organizationUrl>https://cmonkey.github.io</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<!-- http://maven.apache.org/scm/git.html -->
+		<connection>scm:git:https://github.com/cmonkey/raft.git</connection>
+		<developerConnection>scm:git:https://github.com/cmonkey/raft.git</developerConnection>
+		<url>https://github.com/cmonkey/raft</url>
+	</scm>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.16.16</version>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>${fastjson.version}</version>
+		</dependency>
+		<!--pagehelper-->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+			<version>${pagehelper.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>${mybatis.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-connector.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-library</artifactId>
+			<version>${scala.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-compiler</artifactId>
+			<version>${scala.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-reflect</artifactId>
+			<version>${scala.version}</version>
+		</dependency>
+		<!-- dom4j -->
+		<dependency>
+			<groupId>org.dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>${dom4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang3.version}</version>
+		</dependency>
+		<!-- curator -->
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-framework</artifactId>
+			<version>${curator.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-x-discovery</artifactId>
+			<version>${curator.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-recipes</artifactId>
+			<version>${curator.version}</version>
 		</dependency>
 
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.31</version>
-        </dependency>
-		<!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+			<version>${zookeeper.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>${joda.time.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
-			<version>1.0.29</version>
+			<version>${druid.version}</version>
 		</dependency>
-       <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-            <version>${scala.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javax-servlet.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.redisson</groupId>
+			<artifactId>redisson</artifactId>
+			<version>${redisson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>${commons-codec.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+			<version>${commons-pool2.version}</version>
+		</dependency>
         <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-compiler</artifactId>
-            <version>${scala.version}</version>
-        </dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>${netty.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-transport-native-epoll</artifactId>
+			<version>${netty.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>${junit-jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit-jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-params</artifactId>
+			<version>${junit-jupiter.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-core_2.11</artifactId>
-            <version>2.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-sql_2.11</artifactId>
-            <version>2.1.1</version>
-        </dependency><!-- https://mvnrepository.com/artifact/com.typesafe.akka/akka-actor_2.11 -->
-        <dependency>
-            <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-actor_2.11</artifactId>
-            <version>2.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-minicluster</artifactId>
-            <version>${hadoop.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>${commons-logging.version}</version>
+		</dependency>
 
-	<build>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>${commons-text.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openjdk.jmh</groupId>
+			<artifactId>jmh-core</artifactId>
+			<version>${jmh.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openjdk.jmh</groupId>
+			<artifactId>jmh-generator-annprocess</artifactId>
+			<version>${jmh.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>${commons-collections4.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>${quartz.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz-jobs</artifactId>
+			<version>${quartz.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>${javassist.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.bytebuddy</groupId>
+			<artifactId>byte-buddy</artifactId>
+			<version>${byte-buddy.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<version>${bouncycastle.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk15on</artifactId>
+			<version>${bouncycastle.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${springswagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${springswagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+			<version>${jsch.version}</version>
+		</dependency>
+        <!-- pack start -->
+		<dependency>
+			<groupId>org.apache.servicecomb.pack</groupId>
+			<artifactId>omega-spring-starter</artifactId>
+			<version>${pack.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.servicecomb.pack</groupId>
+			<artifactId>omega-transport-resttemplate</artifactId>
+			<version>${pack.version}</version>
+		</dependency>
+		<!-- pack end -->
+
+		<!-- ext start -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid-spring-boot-starter</artifactId>
+			<version>${druid.version}</version>
+		</dependency>
+		<!-- ext end -->
+
+		<!-- https://mvnrepository.com/artifact/io.monix/monix-bio -->
+		<dependency>
+			<groupId>io.monix</groupId>
+			<artifactId>monix-bio_2.13</artifactId>
+			<version>${monix.io.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.housepower/clickhouse-native-jdbc -->
+		<dependency>
+			<groupId>com.github.housepower</groupId>
+			<artifactId>clickhouse-native-jdbc</artifactId>
+			<version>${clickhouse-native-jdbc.version}</version>
+		</dependency>
+
+	</dependencies>
+	<profiles>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.7</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>ossrh</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>false</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.5</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>jdk9</id>
+			<activation>
+				<jdk>[9,)</jdk>
+			</activation>
+			<!-- TODO using jdk argLine to get rid of the jaxb dependencies -->
+			<properties>
+				<jdk.argLine>--add-modules java.xml.bind</jdk.argLine>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>javax.xml.bind</groupId>
+					<artifactId>jaxb-api</artifactId>
+					<version>${jaxb.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>com.sun.xml.bind</groupId>
+					<artifactId>jaxb-impl</artifactId>
+					<version>${jaxb.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.glassfish.jaxb</groupId>
+					<artifactId>jaxb-runtime</artifactId>
+					<version>${jaxb.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>javax.activation</groupId>
+					<artifactId>activation</artifactId>
+					<version>${javax.activation.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>javax.annotation</groupId>
+					<artifactId>javax.annotation-api</artifactId>
+					<version>${javax.annotation-api.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+
+	<distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+	</distributionManagement>
+
+    <build>
 		<plugins>
 			<plugin>
-                <groupId>net.alchim31.maven</groupId>
-                <artifactId>scala-maven-plugin</artifactId>
-                <version>3.2.2</version>
+				<groupId>com.mycila</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>${license.maven.plugin}</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>remove</goal>
+							<goal>format</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<quiet>true</quiet>
+					<header>${main.user.dir}/HEADER</header>
+					<includes>
+						<include>**/src/main/java/**</include>
+						<include>**/src/test/java/**</include>
+					</includes>
+					<strictCheck>true</strictCheck>
+					<mapping>
+						<java>SLASHSTAR_STYLE</java>
+					</mapping>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+				<artifactId>maven-java-formatter-plugin</artifactId>
+				<version>${maven.java.formatter.plugin}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<configFile>${main.user.dir}/Formatter.xml</configFile>
+					<encoding>${project.encoding}</encoding>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.plugin}</version>
+				<configuration>
+					<encoding>${project.encoding}</encoding>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven.source.plugin}</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+                <configuration>
+					<skipSource>true</skipSource>
+                </configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${maven.javadoc.plugin}</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+                    <doclint>none</doclint>
+                    <source>1.8</source>
+                </configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+				<version>${coveralls.maven.plugin}</version>
+				<configuration>
+					<sourceEncoding>${project.encoding}</sourceEncoding>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.plugin}</version>
+				<configuration>
+					<reuseForks>false</reuseForks>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>${cobertura.maven.plugin}</version>
+				<configuration>
+					<encoding>${project.encoding}</encoding>
+					<aggregate>true</aggregate>
+					<formats>
+						<format>xml</format>
+						<format>html</format>
+					</formats>
+					<check/>
+				</configuration>
+			</plugin>
+            <plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>scala-maven-plugin</artifactId>
+				<version>${alchim31.scala.plugin}</version>
+				<executions>
+					<execution>
+						<id>compile-scala</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>add-source</goal>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>test-compile-scala</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>add-source</goal>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<recompileMode>incremental</recompileMode>
+					<compileOrder>Mixed</compileOrder>
+					<scalaVersion>${scala.version}</scalaVersion>
+					<args>
+						<arg>-deprecation</arg>
+					</args>
+					<jvmArgs>
+						<jvmArg>-Xms64m</jvmArg>
+						<jvmArg>-Xmx1024m</jvmArg>
+					</jvmArgs>
+				</configuration>
+			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
                 <executions>
                     <execution>
-                        <id>compile-scala</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>test-compile-scala</id>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                            <goal>testCompile</goal>
-                        </goals>
+                    <id>attach-sources</id>
+                    <goals>
+                        <goal>jar-no-fork</goal>
+                    </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                    <id>attach-javadocs</id>
+                    <goals>
+                        <goal>jar</goal>
+                    </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
                 <configuration>
-                    <recompileMode>incremental</recompileMode>
-                    <compileOrder>Mixed</compileOrder>
-                    <scalaVersion>${scala.version}</scalaVersion>
-                    <args>
-                        <arg>-deprecation</arg>
-                    </args>
-                    <jvmArgs>
-                        <jvmArg>-Xms64m</jvmArg>
-                        <jvmArg>-Xmx1024m</jvmArg>
-                    </jvmArgs>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
 		</plugins>
 	</build>
-
-
 </project>

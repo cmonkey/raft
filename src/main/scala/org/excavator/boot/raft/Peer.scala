@@ -1,6 +1,6 @@
-package com.cmonkey.raft
+package org.excavator.boot.raft
 
-import com.cmonkey.raft.Rfat._
+import org.excavator.boot.raft.Rfat._
 
 import scala.util.Random
 

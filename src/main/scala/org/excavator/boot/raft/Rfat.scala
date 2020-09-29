@@ -1,4 +1,4 @@
-package com.cmonkey.raft
+package org.excavator.boot.raft
 
 import java.util.logging.Logger
 
@@ -11,9 +11,9 @@ object Rfat {
   type Index = Long
   type RequestId = Long
 
-  val NOT_VOTED: Id = -1
-  val NO_LEADER: Id = -1
-  val NO_TERM: Term = -1
+  val NOT_VOTED: Id = -1L
+  val NO_LEADER: Id = -1L
+  val NO_TERM: Term = -1L
   val NO_PING_SENT: Long = 0
 
   def now = System.currentTimeMillis()

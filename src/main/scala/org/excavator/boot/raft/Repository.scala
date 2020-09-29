@@ -1,6 +1,6 @@
-package com.cmonkey.raft
+package org.excavator.boot.raft
 
-import com.cmonkey.raft.Rfat.{Index, Term}
+import org.excavator.boot.raft.Rfat.{Index, Term}
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -28,7 +28,7 @@ class Repository[T] extends LogRepository[T]{
   override def getEntries(start: Index, end: Index): Seq[LogEntry[T]] = {
     if(log.size < end)
       throw new IllegalStateException()
-    log.slice(start.toInt, end.toInt)
+    log.slice(start.toInt, end.toInt).toSeq
   }
 
   override def containsEntry(entryKey: Entry): Boolean = {
