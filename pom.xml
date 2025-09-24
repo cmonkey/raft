@@ -17,7 +17,7 @@
 		<project.build.encoding>UTF-8</project.build.encoding>
 		<!-- 3rd lib dependency -->
 		<fastjson.version>1.2.83</fastjson.version>
-		<zookeeper.version>3.9.2</zookeeper.version>
+		<zookeeper.version>3.9.4</zookeeper.version>
         <curator.version>5.1.0</curator.version>
 		<joda.time.version>2.10.6</joda.time.version>
 		<scala.major-version>2.13</scala.major-version>
